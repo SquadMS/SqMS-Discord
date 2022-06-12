@@ -17,7 +17,7 @@ class DiscordServiceProvider extends ServiceProvider
     {
         $this->app->singleton(DiscordClient::class, function ($app) {
             return new DiscordClient([
-                'token' => Config::get('sqms-discord.key');
+                'token' => Config::get('sqms-discord.key')
             ]);
         });
     }
