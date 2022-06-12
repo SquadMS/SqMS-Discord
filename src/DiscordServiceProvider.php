@@ -6,8 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Config;
 use RestCord\DiscordClient;
 
-$discord = n
-
 class DiscordServiceProvider extends ServiceProvider
 {
     /**
