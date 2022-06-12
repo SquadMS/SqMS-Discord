@@ -3,6 +3,10 @@
 namespace SquadMS\Discord;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Config;
+use RestCord\DiscordClient;
+
+$discord = n
 
 class DiscordServiceProvider extends ServiceProvider
 {
@@ -13,7 +17,11 @@ class DiscordServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(DiscordClient::class, function ($app) {
+            return new DiscordClient([
+                'token' => Config::get('sqms-discord.key');
+            ]);
+        });
     }
 
     /**
