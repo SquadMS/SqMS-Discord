@@ -2,37 +2,41 @@
 
 namespace SquadMS\Discord;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Config;
 use RestCord\DiscordClient;
+use Spatie\LaravelPackageTools\Package;
+use SquadMS\Foundation\Contracts\SquadMSModuleServiceProvider;
 
-class DiscordServiceProvider extends ServiceProvider
+class DiscordServiceProvider extends SquadMSModuleServiceProvider
 {
+    public static string $name = 'sqms-discord';
+
+    public function configureModule(Package $package): void
+    {
+        $package->hasAssets()
+                ->hasConfigFile()
+                ->hasRoutes(['web']);
+    }
+
     /**
      * Register any application services.
      *
      * @return void
      */
-    public function register()
+    public function registeringModule(): void
     {
         $this->app->singleton(DiscordClient::class, function ($app) {
             return new DiscordClient([
-                'token' => Config::get('sqms-discord.key')
+                'token' => Config::get('sqms-discord.key'),
             ]);
         });
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function bootedModule(): void
     {
-        /* Configuration */
-        $this->mergeConfigFrom(__DIR__.'/../config/sqms-discord.php', 'sqms-discord');
-        
-        /* Load Migrations */
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        /* Permissions */
+        foreach (Config::get('sqms-discord.permissions.definitions', []) as $definition => $displayName) {
+            SquadMSPermissions::define(Config::get('sqms-discord.permissions.module'), $definition, $displayName);
+        }
     }
 }
