@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use RestCord\DiscordClient;
 use Spatie\LaravelPackageTools\Package;
 use SquadMS\Foundation\Contracts\SquadMSModuleServiceProvider;
+use SquadMS\Foundation\Facades\SquadMSPermissions;
 
 class DiscordServiceProvider extends SquadMSModuleServiceProvider
 {
